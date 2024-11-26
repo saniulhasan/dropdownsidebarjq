@@ -1,0 +1,12 @@
+.sidebar {
+    position: relative;
+    width: 256px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color:aquamarine;
+    padding: 24px;
+    border-radius: 30px;
+    transition: all 0.3s;
+  }
