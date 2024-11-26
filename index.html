@@ -3,100 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nested Sidebar Dropdown</title>
+    <title>Flexbox Sidebar with Font Awesome Icons</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        body, html {
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
         }
-        #sidebar {
+        .container {
+            display: flex;
+            height: 100%;
+        }
+        .sidebar {
             width: 250px;
-            height: 100vh;
             background-color: #2c3e50;
             color: #ecf0f1;
-            position: fixed;
-            left: 0;
-            top: 0;
+            display: flex;
+            flex-direction: column;
             overflow-y: auto;
         }
-        #content {
-            margin-left: 250px;
+        .content {
+            flex-grow: 1;
             padding: 20px;
+            background-color: #ecf0f1;
         }
         .menu-item {
-            padding: 10px 15px;
+            padding: 15px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
             transition: background-color 0.3s;
         }
         .menu-item:hover {
             background-color: #34495e;
         }
-        .submenu {
-            display: none;
-            padding-left: 20px;
-        }
-        .active {
+        .menu-item.active {
             background-color: #3498db;
         }
-        .menu-item i {
-            margin-right: 10px;
+        .submenu {
+            display: none;
+            flex-direction: column;
+            padding-left: 20px;
         }
         .arrow {
-            float: right;
+            margin-left: auto;
+            transition: transform 0.3s;
+        }
+        .arrow.down {
+            transform: rotate(90deg);
+        }
+        .icon {
+            width: 20px;
+            margin-right: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div id="sidebar">
-        <div class="menu-item" data-submenu="dashboard">
-            <i class="fas fa-tachometer-alt"></i> Dashboard
-            <i class="fas fa-chevron-right arrow"></i>
-        </div>
-        <div class="submenu" id="dashboard">
-            <div class="menu-item">
-                <i class="fas fa-chart-line"></i> Analytics
+    <div class="container">
+        <nav class="sidebar" aria-label="Main Navigation">
+            <div class="menu-item" data-submenu="dashboard">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
+                Dashboard
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
             </div>
-            <div class="menu-item">
-                <i class="fas fa-chart-pie"></i> Reports
-            </div>
-        </div>
-
-        <div class="menu-item" data-submenu="users">
-            <i class="fas fa-users"></i> Users
-            <i class="fas fa-chevron-right arrow"></i>
-        </div>
-        <div class="submenu" id="users">
-            <div class="menu-item">
-                <i class="fas fa-user-plus"></i> Add User
-            </div>
-            <div class="menu-item">
-                <i class="fas fa-user-edit"></i> Edit User
-            </div>
-            <div class="menu-item" data-submenu="user-groups">
-                <i class="fas fa-user-friends"></i> User Groups
-                <i class="fas fa-chevron-right arrow"></i>
-            </div>
-            <div class="submenu" id="user-groups">
+            <div class="submenu" id="dashboard">
                 <div class="menu-item">
-                    <i class="fas fa-plus"></i> Add Group
+                    <span class="icon"><i class="fas fa-chart-line"></i></span>
+                    Analytics
                 </div>
                 <div class="menu-item">
-                    <i class="fas fa-edit"></i> Edit Group
+                    <span class="icon"><i class="fas fa-chart-pie"></i></span>
+                    Reports
                 </div>
             </div>
-        </div>
 
-        <div class="menu-item">
-            <i class="fas fa-cog"></i> Settings
-        </div>
-    </div>
+            <div class="menu-item" data-submenu="users">
+                <span class="icon"><i class="fas fa-users"></i></span>
+                Users
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="submenu" id="users">
+                <div class="menu-item">
+                    <span class="icon"><i class="fas fa-user-plus"></i></span>
+                    Add User
+                </div>
+                <div class="menu-item">
+                    <span class="icon"><i class="fas fa-user-edit"></i></span>
+                    Edit User
+                </div>
+                <div class="menu-item" data-submenu="user-groups">
+                    <span class="icon"><i class="fas fa-user-friends"></i></span>
+                    User Groups
+                    <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="submenu" id="user-groups">
+                    <div class="menu-item">
+                        <span class="icon"><i class="fas fa-plus"></i></span>
+                        Add Group
+                    </div>
+                    <div class="menu-item">
+                        <span class="icon"><i class="fas fa-edit"></i></span>
+                        Edit Group
+                    </div>
+                </div>
+            </div>
 
-    <div id="content">
-        <h1>Main Content</h1>
-        <p>This is the main content area. The sidebar on the left has nested dropdown menus and an active menu feature.</p>
+            <div class="menu-item">
+                <span class="icon"><i class="fas fa-cog"></i></span>
+                Settings
+            </div>
+        </nav>
+
+        <main class="content">
+            <h1>Main Content</h1>
+            <p>This is the main content area. The sidebar on the left has nested dropdown menus and an active menu feature, implemented using Flexbox and Font Awesome icons.</p>
+        </main>
     </div>
 
     <script>
@@ -108,7 +133,7 @@
                 var submenu = $(this).data('submenu');
                 if (submenu) {
                     $('#' + submenu).slideToggle();
-                    $(this).find('.arrow').toggleClass('fa-chevron-right fa-chevron-down');
+                    $(this).find('.arrow i').toggleClass('fa-chevron-right fa-chevron-down');
                 }
                 
                 // Set active class
@@ -119,6 +144,12 @@
                 if (submenu) {
                     $('#' + submenu).find('.menu-item').removeClass('active');
                 }
+
+                // Announce the selected menu item for screen readers
+                var menuText = $(this).contents().filter(function() {
+                    return this.nodeType === 3;
+                }).text().trim();
+                $('<p class="sr-only" aria-live="polite">Selected: ' + menuText + '</p>').appendTo('body').delay(1000).queue(function() { $(this).remove(); });
             });
         });
     </script>
